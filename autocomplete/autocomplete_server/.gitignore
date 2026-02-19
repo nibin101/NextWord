@@ -1,0 +1,49 @@
+# Rust build artifacts
+/target/
+**/*.rs.bk
+*.pdb
+
+# Cargo files
+Cargo.lock
+
+# Model files (should be generated, not committed)
+model.bin
+vocab.txt
+
+# Test files
+test.txt
+
+# Debug files
+*.dSYM/
+*.pdb
+
+# Platform-specific executables
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Server logs
+server.log
+*.log
+
+# Runtime data
+*.pid
+
+# Configuration files that may contain secrets
+config.toml
+.env
+
+# Profiling data
+*.profdata
+*.gcda
+*.gcno
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+*~
+\#*\#
+.\#*
