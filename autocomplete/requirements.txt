@@ -1,0 +1,236 @@
+# System Requirements for AI Autocomplete System
+
+## Hardware Requirements
+
+### Minimum Requirements
+- **CPU**: 2-core processor (1.5+ GHz)
+- **RAM**: 4GB system memory
+  - 2GB for VS Code and extensions
+  - 1GB for autocomplete server runtime
+  - 1GB for operating system and other applications
+- **Storage**: 2GB free disk space
+  - 500MB for Rust toolchain and build artifacts
+  - 200MB for Node.js dependencies
+  - 100MB+ for trained models (varies with corpus size)
+  - 1GB+ for training data and temporary files
+
+### Recommended Requirements  
+- **CPU**: 4-core processor (2.5+ GHz)
+- **RAM**: 8GB system memory
+  - Better performance with larger models
+  - Faster training and compilation
+- **Storage**: 5GB free disk space
+  - Room for multiple model versions
+  - Larger training corpora
+- **Network**: Internet connection for initial setup
+
+### Performance Considerations
+- **SSD recommended** for faster model loading
+- **More RAM** enables larger vocabularies and training datasets
+- **Multiple cores** speed up Rust compilation and training
+
+## Software Requirements
+
+### Core Dependencies
+
+#### Rust Toolchain
+- **Rust**: Version 1.70.0 or later
+  - Install via rustup: https://rustup.rs/
+  - Includes cargo package manager
+  - Required for trainer and server components
+
+#### Node.js Ecosystem  
+- **Node.js**: Version 18.0.0 or later
+  - LTS versions recommended
+  - Includes npm package manager
+  - Required for VS Code extension
+
+#### VS Code Platform
+- **Visual Studio Code**: Version 1.109.0 or later
+  - Extension host API compatibility
+  - Required for autocomplete interface
+
+### Operating System Support
+
+#### Primary Support
+- **Windows 10/11** (x64)
+  - PowerShell 5.1+ or PowerShell Core
+  - Windows Terminal recommended
+- **macOS 11+** (Intel/Apple Silicon)
+  - Terminal.app or iTerm2
+- **Linux** (x64)
+  - Ubuntu 20.04+ LTS  
+  - Debian 11+
+  - RHEL/CentOS 8+
+  - Arch Linux (current)
+
+#### Build Tools
+- **Windows**: 
+  - Microsoft C++ Build Tools
+  - Windows SDK
+  - Git for Windows
+- **macOS**:
+  - Xcode Command Line Tools
+  - Homebrew (recommended)
+- **Linux**:
+  - GCC/Clang compiler
+  - Build essentials package
+  - Git
+
+## Rust Dependencies
+
+### Trainer Component (`trainer/Cargo.toml`)
+```toml
+[dependencies]
+memmap2 = "0.9"    # Memory-mapped file I/O
+```
+
+### Server Component (`autocomplete_server/Cargo.toml`)  
+```toml
+[dependencies]
+axum = "0.7"                              # Web framework
+tokio = { version = "1", features = ["full"] }  # Async runtime
+serde = { version = "1", features = ["derive"] } # Serialization
+serde_json = "1"                          # JSON handling
+```
+
+## Node.js Dependencies
+
+### Extension Dependencies (`autocomplete-client/package.json`)
+
+#### Runtime Dependencies
+- **vscode**: VS Code Extension API (built-in)
+
+#### Development Dependencies
+```json
+{
+  "@types/mocha": "^10.0.10",          // Testing framework types
+  "@types/node": "22.x",               // Node.js type definitions  
+  "@types/vscode": "^1.109.0",         // VS Code API types
+  "@vscode/test-cli": "^0.0.12",       // VS Code testing CLI
+  "@vscode/test-electron": "^2.5.2",   // Extension test runner
+  "esbuild": "^0.27.2",                // Fast JavaScript bundler
+  "eslint": "^9.39.2",                 // Code linting
+  "npm-run-all": "^4.1.5",             // Run multiple npm scripts
+  "typescript": "^5.9.3",              // TypeScript compiler
+  "typescript-eslint": "^8.54.0"       // TypeScript ESLint rules
+}
+```
+
+## Training Data Requirements
+
+### Input Format
+- **File Type**: Plain text (.txt)
+- **Encoding**: UTF-8
+- **Size**: 1MB minimum, 10MB+ recommended
+- **Quality**: Clean, well-formatted text in target domain
+
+### Corpus Recommendations
+
+#### For Code Completion
+- Programming tutorials and documentation  
+- Code comments from open source projects
+- Technical blog posts and articles
+- API documentation and guides
+
+#### For General Text
+- Books and literature (Project Gutenberg)
+- Wikipedia articles
+- News articles and journalism
+- Academic papers and journals
+
+#### Data Quality Guidelines
+- Remove markup and formatting tags
+- Consistent punctuation and capitalization
+- Filter out very short sentences (<3 words)
+- Remove special characters and symbols
+- Ensure text is in target language
+
+## Model Output Requirements
+
+### Generated Files
+- **model.bin**: Binary trigram model (10MB-500MB typical)
+- **vocab.txt**: Vocabulary mapping (1MB-50MB typical)
+
+### Model Performance Scaling
+```
+Training Data Size → Model Size → Vocab Size → RAM Usage
+1MB text         → 2MB model   → 10K words  → 50MB RAM
+10MB text        → 20MB model  → 50K words  → 100MB RAM  
+100MB text       → 200MB model → 200K words → 500MB RAM
+1GB text         → 2GB model   → 1M words   → 4GB RAM
+```
+
+## Network Requirements
+
+### Development Setup
+- Internet connection for downloading:
+  - Rust crates from crates.io
+  - npm packages from npmjs.com
+  - VS Code extensions from marketplace
+
+### Runtime Operation  
+- **Local only**: No internet required once setup complete
+- **Server communication**: Localhost HTTP (port 3000)
+- **No external APIs**: Fully offline operation
+
+## Security Considerations
+
+### File Permissions
+- Read access to training data files
+- Write access to model output directory  
+- Execute permissions for compiled binaries
+
+### Network Security  
+- Server runs on localhost only (127.0.0.1:3000)
+- No external network access required
+- No sensitive data transmitted over network
+
+### Data Privacy
+- Training data remains local
+- No telemetry or data collection
+- User input processed locally only
+
+## Development Environment
+
+### Recommended IDE Setup
+- **VS Code Extensions**:
+  - rust-analyzer (Rust language support)
+  - TypeScript and JavaScript Language Features
+  - Extension Pack for Java (if developing in Java)
+
+### Build Environment
+- **Rust**: Latest stable toolchain via rustup
+- **Node.js**: LTS version via nvm/volta
+- **Git**: For version control and dependency management
+
+## Troubleshooting Resources
+
+### Version Verification Commands
+```bash
+# Check Rust installation
+rustc --version
+cargo --version
+
+# Check Node.js installation  
+node --version
+npm --version
+
+# Check VS Code version
+code --version
+```
+
+### Memory Usage Monitoring
+- Use system monitoring tools to track RAM usage
+- Monitor during training for peak memory consumption
+- Adjust model parameters if memory limits exceeded
+
+### Performance Benchmarking
+- Measure training time for different corpus sizes
+- Profile server response times under load
+- Monitor VS Code extension activation performance
+
+---
+
+*For installation instructions, see [SETUP.md](SETUP.md)*  
+*For architecture details, see [README.md](README.md)*
