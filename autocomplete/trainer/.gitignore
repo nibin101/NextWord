@@ -1,0 +1,40 @@
+# Rust build artifacts
+/target/
+**/*.rs.bk
+*.pdb
+
+# Cargo files
+Cargo.lock
+
+# Generated model files
+model.bin
+vocab.txt
+
+# Training data
+data.txt
+*.txt
+training_data/
+
+# Debug files
+*.dSYM/
+*.pdb
+
+# Platform-specific executables
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Profiling data
+*.profdata
+*.gcda
+*.gcno
+
+# IDE files specific to Rust
+.vscode/
+.idea/
+
+# Temporary files
+*~
+\#*\#
+.\#*
